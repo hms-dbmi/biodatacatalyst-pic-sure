@@ -1126,9 +1126,9 @@ public class QueryBuilderTestPlan extends Testplan {
 		
 		driver.findElement(By.xpath(closingButton)).click();
 		
-		driver.findElement(By.xpath(aplicationButton)).click();
+//		driver.findElement(By.xpath(aplicationButton)).click();
 		
-		driver.findElement(By.linkText("PICSURE")).click();	
+	//	driver.findElement(By.linkText("PICSURE")).click();	
 		
 	}
 
