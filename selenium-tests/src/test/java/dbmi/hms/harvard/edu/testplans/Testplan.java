@@ -254,6 +254,11 @@ public abstract class Testplan {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public void verifyAuthorizedAccessPageload(Reporter reporter) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	

@@ -84,7 +84,9 @@ public class QueryBuilderTestPlan extends Testplan {
 	private static final Logger LOGGER = Logger.getLogger(QueryBuilderTestPlan.class.getName());
 	private static String downloadPath = System.getProperty("dirofdownloadedfiles");
 	private String dataAccess = "//a[contains(text(),'Data Access')]";
-	private String dataAccessExploreNow = "//button[contains(text(),'Explore Now')]";
+	//private String dataAccessExploreNow = "//button[contains(text(),'Explore Now')]";
+	private String dataAccessExploreOpenAccess ="//button[@data-href='/picsureui/openAccess']";
+	private String dataAccessExploreAuthorizedAccess ="//button[@data-href='/picsureui/queryBuilder']";
 	private String helpTab = "//span[contains(text(),'Help')]";
 	private String contactus = "//a[contains(text(),'Contact Us')]";
 	private String closingButton ="//button[@class='close']";
@@ -290,10 +292,10 @@ public class QueryBuilderTestPlan extends Testplan {
 		authTypes.doAuth(driver, testPlan);
 		Thread.sleep(5000);
 		driver.navigate().refresh();
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(SearchBoxField)));
-		driver.navigate().refresh();
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(SearchBoxField)));
-		
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(dataAccessExploreAuthorizedAccess)));
+//		driver.navigate().refresh();
+	//	wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(dataAccessExploreAuthorizedAccess)));
+		Thread.sleep(7000);
 		
 		try {
 			File file = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
@@ -304,10 +306,14 @@ public class QueryBuilderTestPlan extends Testplan {
 		}
 
 		try {
-			Assert.assertTrue(driver.findElements(By.xpath(SearchBoxField)).size() != 0,
+			/*Assert.assertTrue(driver.findElements(By.xpath(SearchBoxField)).size() != 0,
 					"Google user is able to Login successfully");
+			*/
+			Assert.assertTrue(driver.findElements(By.xpath(dataAccessExploreAuthorizedAccess)).size() != 0,
+					"Ecommon/Google User is able to Login successfully");
+			
 			SummaryStatisticsResults.class.newInstance().doAssertResultTrue(driver, testPlan, reporter);
-			LOGGER.info("---------------------------Google us"
+			LOGGER.info("---------------------------Ecommon/Google us"
 					+ "er is able to Login successfully in PicsureUI----------------------------");
 			System.out.println("passed Login");
 
@@ -324,6 +330,10 @@ public class QueryBuilderTestPlan extends Testplan {
 		 // Take a screenshot of the current page
         File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         FileUtils.copyFile(screenshot, new File("screenshot.png"));
+        
+        driver.findElement(By.xpath(dataAccessExploreOpenAccess)).click();
+        
+        Thread.sleep(5000);
         
 	}
 
@@ -1054,6 +1064,7 @@ public class QueryBuilderTestPlan extends Testplan {
 			LOGGER.info(
 					"---------------------------By Numeric in between validation message doesn't display----------------------------");
 		}
+		driver.navigate().refresh();
 	}
 
 	public void verifyQueryBuilderBack(Reporter reporter) throws Exception {
@@ -1103,7 +1114,8 @@ public class QueryBuilderTestPlan extends Testplan {
 	public void verifyUserProfile(Reporter reporter) throws Exception {
 		
 		driver.findElement(By.xpath(userProfile)).click();
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		
+		//driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		Thread.sleep(5000);
 
 		try {
@@ -1213,7 +1225,7 @@ public class QueryBuilderTestPlan extends Testplan {
 	
 		public void verifyDataaccessExplore(Reporter reporter) throws Exception, IllegalAccessException {
 			
-			driver.findElement(By.xpath(dataAccessExploreNow)).click();
+			driver.findElement(By.xpath(dataAccessExploreOpenAccess)).click();
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
 			try {
@@ -1305,7 +1317,42 @@ public void verifyLogoutPicsure(Reporter reporter) throws Exception {
 	}
 		
 }
-	
+
+
+public void verifyAuthorizedAccessPageload(Reporter reporter)
+		throws  Exception  {
+	driver.findElement(By.xpath(dataAccess)).click();
+	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	driver.findElement(By.xpath(dataAccessExploreAuthorizedAccess)).click();
+	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	String enterNumber = (String) testPlan.get("NumericValueLess");
+	searchAndSelectConceptTerm(SearchBox, "SearchTerm", "TextToSelect", SearchBoxAutocompleteListBox,
+			SearchBoxAutocompleteListBoxItems);
+	Thread.sleep(5000);
+	QueryBuilder.class.newInstance().enterByNumericValue(driver, enterNumber);
+	QueryBuilder.class.newInstance().doRunQuery(driver);
+	Thread.sleep(3000);
+
+	try {
+		Assert.assertTrue(driver.findElements(By.xpath("//a[@id='select-btn']")).size() != 0,
+				"Authorized Access page is loaded properly");
+		
+		SummaryStatisticsResults.class.newInstance().doAssertResultTrue(driver, testPlan, reporter);
+		LOGGER.info("---------------------------Authorized page has loaded properly---------------------------");
+		
+	}
+
+	catch (AssertionError error) {
+		LOGGER.error(error);
+		SummaryStatisticsResults.class.newInstance().doAssertResultFalse(driver, testPlan, reporter);
+		LOGGER.info("---------------------------There is issue with Authorized page loading ---------------------------");
+		
+	}
+
+	driver.navigate().refresh();
+
+}
+
 	public void verifyQueryBuilderRestrictByValue(Reporter reporter) throws Exception {
 		String validationTextExpected = "Value invalid! Correct invalid fields.";
 		searchAndSelectConceptTerm(SearchBox, "SearchTerm", "TextToSelect", SearchBoxAutocompleteListBox,

@@ -337,7 +337,7 @@ public class TestDriver {
 	}
 
 
-@Test (priority=20)
+//@Test (priority=20)
 
 	public void verify_QueryBuilder_ByNumeric_InBtnValidation_ForTextBox() throws Exception {
 		LOGGER.info(
@@ -385,7 +385,7 @@ public class TestDriver {
 				"---------------------------------The test case The test case verify Restrict By Value is completed-------------------------");
 	}
 
-@Test (priority=24)
+//@Test (priority=24)
 
 	public void verify_userProfile() throws Exception {
 		LOGGER.info(
@@ -432,7 +432,7 @@ public class TestDriver {
 
 	}
 
-@Test (priority=28)
+	@Test (priority=28)
 	public void verify_helpcontactus() throws Exception {
 		LOGGER.info(
 				"---------------------------------The test case helpContactUS is running-------------------------");
@@ -443,7 +443,20 @@ public class TestDriver {
 
 	}
 
-@Test (priority=29)
+
+	@Test (priority=29)
+	public void verify_authorized_access_page() throws Exception {
+		LOGGER.info(
+				"---------------------------------The test case verify  Authorized page loads is running-------------------------");
+		readFile(configProperties.getProperty("verify.bdc.authorizedaccess.pageload"));
+		testPlan.verifyAuthorizedAccessPageload(reporter);
+		LOGGER.info(
+				"---------------------------------The test case verify  Authorized page loads is completed-------------------------");
+
+	}
+
+	
+	//@Test (priority=30)
 	public void verify_logout() throws Exception {
 		LOGGER.info(
 				"---------------------------------The test case logout is running-------------------------");
