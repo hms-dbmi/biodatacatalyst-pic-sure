@@ -385,7 +385,7 @@ public class TestDriver {
 				"---------------------------------The test case The test case verify Restrict By Value is completed-------------------------");
 	}
 
-//@Test (priority=24)
+@Test (priority=24)
 
 	public void verify_userProfile() throws Exception {
 		LOGGER.info(
@@ -422,11 +422,11 @@ public class TestDriver {
 
 	
 	@Test (priority=27)
-	public void verify_dataaccessExploreButton() throws Exception {
+	public void verify_dataaccessExploreButtonOpenAccess() throws Exception {
 		LOGGER.info(
 				"---------------------------------The test case verifying Explore button  is running-------------------------");
 		readFile(configProperties.getProperty("verify.queryresult.dataaccess.explore"));
-		testPlan.verifyDataaccessExplore(reporter);
+		testPlan.verifyDataaccessExploreOpenAccess(reporter);
 		LOGGER.info(
 				"---------------------------------The test case verifying Explore button  is completed-------------------------");
 
@@ -445,6 +445,18 @@ public class TestDriver {
 
 
 	@Test (priority=29)
+	public void verify_authorized_access_page_dataexport() throws Exception {
+		LOGGER.info(
+				"---------------------------------The test case verify  Authorized page displays Data Export button is running-------------------------");
+		readFile(configProperties.getProperty("verify.bdc.authorizedaccess.dataexport"));
+		testPlan.verifyAuthorizedAccessPageDataExport(reporter);
+		LOGGER.info(
+				"---------------------------------The test case verify  Authorized page displays Data Export button is completed-------------------------");
+
+	}
+
+
+	@Test (priority=30)
 	public void verify_authorized_access_page() throws Exception {
 		LOGGER.info(
 				"---------------------------------The test case verify  Authorized page loads is running-------------------------");
@@ -456,7 +468,19 @@ public class TestDriver {
 	}
 
 	
-	//@Test (priority=30)
+	
+	@Test (priority=31)
+	public void verify_authorized_NoExportButton_default() throws Exception {
+		LOGGER.info(
+				"---------------------------------The test case verify  Authorized page doesn't have default Export Button  is running-------------------------");
+		readFile(configProperties.getProperty("verify.bdc.authorizedaccess.pageload.noexportbutton"));
+		testPlan.verifyAuthorizedAccessdefaultNoExportButton(reporter);
+		LOGGER.info(
+				"---------------------------------The test case verify  Authorized page doesn't have default Export Button is completed-------------------------");
+
+	}
+
+	@Test (priority=30)
 	public void verify_logout() throws Exception {
 		LOGGER.info(
 				"---------------------------------The test case logout is running-------------------------");

@@ -481,6 +481,7 @@ public class QueryBuilderTestPlan extends Testplan {
 		QueryBuilder.class.newInstance().editingQuery(driver);
 		QueryBuilder.class.newInstance().enterByNumericValue(driver, editNumericValue);
 		QueryBuilder.class.newInstance().doRunQuery(driver);
+		Thread.sleep(5000);
 		
 		List<WebElement> l= driver.findElements(By.xpath("//*[contains(text(),'AND')]"));
 	      
@@ -1223,7 +1224,7 @@ public class QueryBuilderTestPlan extends Testplan {
 	
 	
 	
-		public void verifyDataaccessExplore(Reporter reporter) throws Exception, IllegalAccessException {
+		public void verifyDataaccessExploreOpenAccess(Reporter reporter) throws Exception, IllegalAccessException {
 			
 			driver.findElement(By.xpath(dataAccessExploreOpenAccess)).click();
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -1323,7 +1324,15 @@ public void verifyAuthorizedAccessPageload(Reporter reporter)
 		throws  Exception  {
 	driver.findElement(By.xpath(dataAccess)).click();
 	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-	driver.findElement(By.xpath(dataAccessExploreAuthorizedAccess)).click();
+	
+	WebElement AuthorizedAccessCount=driver.findElement(By.xpath("//div[@id='authorized-participants']"));
+	String AuthorizedAccessCountText=AuthorizedAccessCount.getText();
+	System.out.println("Text is " +AuthorizedAccessCountText);
+	String numberOnly= AuthorizedAccessCountText.replaceAll("[^0-9]", "");
+	System.out.println("Text is " +numberOnly);
+	
+	driver.findElement(By.xpath(dataAccessExploreAuthorizedAccess)).click();		
+			
 	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	String enterNumber = (String) testPlan.get("NumericValueLess");
 	searchAndSelectConceptTerm(SearchBox, "SearchTerm", "TextToSelect", SearchBoxAutocompleteListBox,
@@ -1331,7 +1340,7 @@ public void verifyAuthorizedAccessPageload(Reporter reporter)
 	Thread.sleep(5000);
 	QueryBuilder.class.newInstance().enterByNumericValue(driver, enterNumber);
 	QueryBuilder.class.newInstance().doRunQuery(driver);
-	Thread.sleep(3000);
+	Thread.sleep(000);
 
 	try {
 		Assert.assertTrue(driver.findElements(By.xpath("//a[@id='select-btn']")).size() != 0,
@@ -1353,7 +1362,74 @@ public void verifyAuthorizedAccessPageload(Reporter reporter)
 
 }
 
-	public void verifyQueryBuilderRestrictByValue(Reporter reporter) throws Exception {
+
+public void verifyAuthorizedAccessPageDataExport(Reporter reporter)	throws  Exception  {
+	driver.findElement(By.xpath(dataAccess)).click();
+	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	driver.findElement(By.xpath(dataAccessExploreAuthorizedAccess)).click();
+	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	String enterNumber = (String) testPlan.get("NumericValueLess");
+	searchAndSelectConceptTerm(SearchBox, "SearchTerm", "TextToSelect", SearchBoxAutocompleteListBox,
+			SearchBoxAutocompleteListBoxItems);
+	Thread.sleep(5000);
+	QueryBuilder.class.newInstance().enterByNumericValue(driver, enterNumber);
+	QueryBuilder.class.newInstance().doRunQuery(driver);
+	Thread.sleep(3000);
+
+	try {
+		Assert.assertTrue(driver.findElements(By.xpath("//a[@id='select-btn']")).size() != 0,
+				"Authorized Access page is loaded properly");
+		
+		SummaryStatisticsResults.class.newInstance().doAssertResultTrue(driver, testPlan, reporter);
+		LOGGER.info("---------------------------Authorized page load shows Data Export Button ---------------------------");
+		
+	}
+
+	catch (AssertionError error) {
+		LOGGER.error(error);
+		SummaryStatisticsResults.class.newInstance().doAssertResultFalse(driver, testPlan, reporter);
+		LOGGER.info("---------------------------There is issue with Authorized page load ---------------------------");
+		
+	}
+
+	driver.navigate().refresh();
+
+}
+
+
+public void verifyAuthorizedAccessdefaultNoExportButton(Reporter reporter)	throws  Exception  {
+	driver.findElement(By.xpath(dataAccess)).click();
+	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	driver.findElement(By.xpath(dataAccessExploreAuthorizedAccess)).click();
+	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	Thread.sleep(3000);
+
+	try {
+		//Assert.assertTrue(driver.findElements(By.xpath("//a[@id='select-btn']")).size() == 0,
+		//		"Authorized Access page is loaded properly");
+		
+		Assert.assertFalse(driver.findElement(By.xpath("//a[@id='select-btn']")).isDisplayed());
+		
+		SummaryStatisticsResults.class.newInstance().doAssertResultTrue(driver, testPlan, reporter);
+		LOGGER.info("---------------------------Authorized page load doesn't diplay Select Data  Export Button on loading ---------------------------");
+		
+	}
+
+	catch (AssertionError error) {
+		LOGGER.error(error);
+		SummaryStatisticsResults.class.newInstance().doAssertResultFalse(driver, testPlan, reporter);
+		LOGGER.info("---------------------------There is issue with Authorized page - Data Export Button ---------------------------");
+		
+	}
+
+	driver.navigate().refresh();
+
+}
+
+
+
+
+public void verifyQueryBuilderRestrictByValue(Reporter reporter) throws Exception {
 		String validationTextExpected = "Value invalid! Correct invalid fields.";
 		searchAndSelectConceptTerm(SearchBox, "SearchTerm", "TextToSelect", SearchBoxAutocompleteListBox,
 				SearchBoxAutocompleteListBoxItems);
