@@ -51,7 +51,7 @@ public class AuthTypes {
 		}
 	}
 
-	private void doEraCommonLogin(WebDriver driver, Map testPlan) throws InterruptedException {
+	private void doEraCommonLogin(WebDriver driver, Map testPlan) throws InterruptedException, IOException {
 		
 try {
 			
@@ -63,17 +63,19 @@ try {
 				
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			wait = new WebDriverWait(driver, 40);
+			File file = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+			FileUtils.copyFile(file, new File("screenshothome.png"));
 			
 			wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'eRA Commons')]"))).click();
-			
+			FileUtils.copyFile(file, new File("screenshotEracommon.png"));
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(usernamebox))).sendKeys(username);
 			
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(passwordbox))).sendKeys(password);
-			
+			FileUtils.copyFile(file, new File("screenshotBDClogin.png"));
 			wait.until(ExpectedConditions.elementToBeClickable(By.xpath(signinButton))).click();
 			
 			wait.until(ExpectedConditions.elementToBeClickable(By.xpath(yesAuthorize))).click();
-			
+			FileUtils.copyFile(file, new File("Authorize.png"));
 			
 			
 		} catch (SecurityException e) {
