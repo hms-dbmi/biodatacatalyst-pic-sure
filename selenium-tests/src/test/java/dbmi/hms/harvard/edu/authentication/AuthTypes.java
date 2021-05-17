@@ -9,6 +9,7 @@ import java.util.concurrent.TimeoutException;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -53,7 +54,7 @@ public class AuthTypes {
 
 	private void doEraCommonLogin(WebDriver driver, Map testPlan) throws InterruptedException, IOException {
 		
-try {
+
 			
 			System.out.println("**********************Login with  eRA Common account***************");
 			String usernamebox = "//input[@id='USER']";
@@ -65,27 +66,34 @@ try {
 			wait = new WebDriverWait(driver, 40);
 			File file = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
 			FileUtils.copyFile(file, new File("screenshothome.png"));
+			//Ecommons Login
+			try {
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'eRA Commons')]"))).click();
+				
+				//Ecommons Login RAS
+				//wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'with eRA Commons (ras)')]"))).click();
+				
+						FileUtils.copyFile(file, new File("screenshotEracommon.png"));
+						wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(usernamebox))).sendKeys(username);
+						
+						wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(passwordbox))).sendKeys(password);
+						FileUtils.copyFile(file, new File("screenshotBDClogin.png"));
+						wait.until(ExpectedConditions.elementToBeClickable(By.xpath(signinButton))).click();
+						
+						wait.until(ExpectedConditions.elementToBeClickable(By.xpath(yesAuthorize))).click();
+						FileUtils.copyFile(file, new File("Authorize.png"));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+					
+					
+					
+					
 			
-			wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'eRA Commons')]"))).click();
-			FileUtils.copyFile(file, new File("screenshotEracommon.png"));
-			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(usernamebox))).sendKeys(username);
-			
-			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(passwordbox))).sendKeys(password);
-			FileUtils.copyFile(file, new File("screenshotBDClogin.png"));
-			wait.until(ExpectedConditions.elementToBeClickable(By.xpath(signinButton))).click();
-			
-			wait.until(ExpectedConditions.elementToBeClickable(By.xpath(yesAuthorize))).click();
-			FileUtils.copyFile(file, new File("Authorize.png"));
-			
-			
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 	}
 
-	
+
 
 	private void doAdminLogin(WebDriver driver, Map testPlan) throws InterruptedException {
 		try {

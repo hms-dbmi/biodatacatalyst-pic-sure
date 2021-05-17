@@ -217,7 +217,7 @@ public class QueryBuilderTestPlan extends Testplan {
 			
 			
 		case "firefoxheadless":
-				//System.setProperty("webdriver.gecko.driver", System.getProperty("geckodriverpath"));
+				System.setProperty("webdriver.gecko.driver", System.getProperty("geckodriverpath"));
 				FirefoxBinary firefoxBinary = new FirefoxBinary();
 				firefoxBinary.addCommandLineOptions("--headless");
 				FirefoxProfile profile = new FirefoxProfile();
@@ -231,8 +231,8 @@ public class QueryBuilderTestPlan extends Testplan {
 		        DesiredCapabilities dc = DesiredCapabilities.firefox();
 		        dc.setCapability(FirefoxDriver.PROFILE, profile);
 		        dc.setCapability("marionette", true);
-		        //dc.setPlatform(Platform.WINDOWS);
-		        dc.setPlatform(Platform.LINUX);
+		        dc.setPlatform(Platform.WINDOWS);
+		        //dc.setPlatform(Platform.LINUX);
 		        FirefoxOptions opt = new FirefoxOptions();
 				opt.merge(dc);
 				FirefoxOptions firefoxOptions = new FirefoxOptions(opt);
@@ -286,29 +286,45 @@ public class QueryBuilderTestPlan extends Testplan {
 
 	public void verifySuccessfulLoginPicsureUILaunch(Reporter reporter) throws InterruptedException, Exception {
 		
-	//	String searchBoxField="//input[@placeholder='Search...']";
-		AuthTypes authTypes = new AuthTypes();
+		/*AuthTypes authTypes = new AuthTypes();
 		wait = new WebDriverWait(driver, 30);
 		authTypes.doAuth(driver, testPlan);
 		Thread.sleep(5000);
 		driver.navigate().refresh();
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(dataAccessExploreAuthorizedAccess)));
-//		driver.navigate().refresh();
-	//	wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(dataAccessExploreAuthorizedAccess)));
+    //	driver.navigate().refresh();
+*/	//	wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(dataAccessExploreAuthorizedAccess)));
 		Thread.sleep(7000);
 		
-		try {
-			File file = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-			FileUtils.copyFile(file, new File("screenshothome.png"));
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
 		try {
 			/*Assert.assertTrue(driver.findElements(By.xpath(SearchBoxField)).size() != 0,
 					"Google user is able to Login successfully");
 			*/
+		
+			AuthTypes authTypes = new AuthTypes();
+			wait = new WebDriverWait(driver, 30);
+			authTypes.doAuth(driver, testPlan);
+			Thread.sleep(5000);
+			driver.navigate().refresh();
+			try {
+				wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(dataAccessExploreAuthorizedAccess)));
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	    //	
+			Thread.sleep(7000);
+			
+			try {
+				File file = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+				FileUtils.copyFile(file, new File("screenshothome.png"));
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			
 			Assert.assertTrue(driver.findElements(By.xpath(dataAccessExploreAuthorizedAccess)).size() != 0,
 					"Ecommon/Google User is able to Login successfully");
 			
@@ -1426,6 +1442,44 @@ public void verifyAuthorizedAccessdefaultNoExportButton(Reporter reporter)	throw
 
 }
 
+public void verifyOpenAccesspatientcountdiplsyaforQueryResultBetnOnetoNine(Reporter reporter) throws Exception, IllegalAccessException {
+	
+	driver.findElement(By.xpath(dataAccess)).click();
+	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	driver.findElement(By.xpath(dataAccessExploreOpenAccess)).click();
+	//driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	String enterNumberGreater = (String) testPlan.get("NumericValueGreater");
+	searchAndSelectConceptTerm(SearchBox, "SearchTerm", "TextToSelect", SearchBoxAutocompleteListBox,
+			SearchBoxAutocompleteListBoxItems);
+
+	Thread.sleep(3000);
+	Select dropdownByNumeric = new Select(driver
+			.findElement(By.xpath("//select[contains(@class,'form-control value-type-select value-operator')]")));
+	dropdownByNumeric.selectByIndex(2);
+	Thread.sleep(10000);
+	QueryBuilder.class.newInstance().enterByNumericValue(driver, enterNumberGreater);
+	QueryBuilder.class.newInstance().doRunQuery(driver);
+	Thread.sleep(3000);
+	String patientCountActual = driver.findElement(patientCountValue).getText();
+	System.out.println("patientCountActual is" + patientCountActual);
+	String patientCountExpected = (String) testPlan.get("PatientCount");
+	System.out.println("patientCountExpected" + patientCountExpected);
+
+	if (patientCountActual.equalsIgnoreCase(patientCountExpected)) {
+
+		SummaryStatisticsResults.class.newInstance().doAssertResultTrue(driver, testPlan, reporter);
+		LOGGER.info(
+				"---------------------------Query result by numeric greater  than is working fine----------------------------");
+
+	} else {
+		SummaryStatisticsResults.class.newInstance().doAssertResultFalse(driver, testPlan, reporter);
+		LOGGER.info(
+				"---------------------------Query result by numeric greater than has failed..issue----------------------------");
+	}
+
+	driver.navigate().refresh();
+	
+}
 
 
 

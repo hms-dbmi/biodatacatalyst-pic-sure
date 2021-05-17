@@ -117,7 +117,7 @@ public class TestDriver {
 
 	}
 
-@Test (priority=3)
+@Test (priority=3, dependsOnMethods="verify_successful_Login_To_PicsureUI")
 
 	public void verify_QueryBuilder_ByNoValue() throws Exception {
 		LOGGER.info(
@@ -129,7 +129,7 @@ public class TestDriver {
 
 	}
 
-@Test(priority=4)
+@Test(priority=4,dependsOnMethods="verify_successful_Login_To_PicsureUI")
 
 	public void verify_QueryBuilder_ByNumericValue_LessThan() throws Throwable {
 		LOGGER.info(
@@ -142,7 +142,7 @@ public class TestDriver {
 	}
 
  
-@Test (priority=5)
+@Test (priority=5,dependsOnMethods="verify_successful_Login_To_PicsureUI")
 
 	public void verify_QueryBuilder_ByNumericValue_GreaterThan() throws Throwable {
 		LOGGER.info(
@@ -154,7 +154,7 @@ public class TestDriver {
 
 	}
 
-@Test (priority=6)
+@Test (priority=6,dependsOnMethods="verify_successful_Login_To_PicsureUI")
 	public void verify_QueryBuilder_ByNumericValue_Between() throws Exception {
 		LOGGER.info(
 				"---------------------------------The test case verifyQueryBuilderByNumericValueBetween is running-------------------------");
@@ -166,7 +166,7 @@ public class TestDriver {
 	}
 
 
-@Test (priority=7)
+@Test (priority=7,dependsOnMethods="verify_successful_Login_To_PicsureUI")
 
 	public void verify_QueryBuilder_ANDCondition() throws Exception {
 		LOGGER.info(
@@ -181,7 +181,7 @@ public class TestDriver {
 
 	}
 
-@Test (priority=8)
+@Test (priority=8,dependsOnMethods="verify_successful_Login_To_PicsureUI")
 
 	public void verify_QueryBuilder_Deletion() throws Exception {
 		LOGGER.info(
@@ -194,7 +194,7 @@ public class TestDriver {
 	}
 
 	
-@Test (priority=9)
+@Test (priority=9,dependsOnMethods="verify_successful_Login_To_PicsureUI")
 
 		public void verify_QueryBuilder_BackButton() throws Exception {
 			LOGGER.info(
@@ -206,7 +206,7 @@ public class TestDriver {
 
 		}
 
-@Test (priority=10)
+@Test (priority=10,dependsOnMethods="verify_successful_Login_To_PicsureUI")
 
 	public void verify_QueryBuilder_Editing() throws Exception {
 		LOGGER.info(
@@ -217,7 +217,7 @@ public class TestDriver {
 				"---------------------------------The test case verifyQueryBuilderEditing is completed-------------------------");
 	}
 
-@Test(priority = 11)
+@Test(priority = 11,dependsOnMethods="verify_successful_Login_To_PicsureUI")
 
 	public void verify_QueryBuilder_SearchInvalidData() throws Exception {
 		LOGGER.info(
@@ -230,7 +230,7 @@ public class TestDriver {
 
 	}
 
-@Test(priority = 12)
+@Test(priority = 12,dependsOnMethods="verify_successful_Login_To_PicsureUI")
 
 	public void verify_QueryBuilder_Search_InCaseSensitivity() throws Exception {
 		
@@ -243,7 +243,7 @@ public class TestDriver {
 
 	}
 
-//@Test (priority = 13)
+//@Test (priority = 13,dependsOnMethods="verify_successful_Login_To_PicsureUI")
 
 		public void verify_Downloading_ofData() throws Exception {
 			LOGGER.info(
@@ -254,7 +254,7 @@ public class TestDriver {
 					"---------------------------------The test case verifyDownloading is completed-------------------------");
 
 		}
-	//@Test (priority = 14)
+	//@Test (priority = 14 ,dependsOnMethods="verify_successful_Login_To_PicsureUI")
 			 //dependsOnMethods={"verifyDownloadingofData"})
 
 		public void verify_TheLoadedData() throws Exception {
@@ -286,7 +286,7 @@ public class TestDriver {
 
 			}
 		
-@Test (priority = 16)
+@Test (priority = 16,dependsOnMethods="verify_successful_Login_To_PicsureUI")
 		public void verifypresenceOfANDLabel() throws Exception {
 			 
 
@@ -299,7 +299,7 @@ public class TestDriver {
 						"---------------------------------The test case verify presence of AND LABEL  is completed-------------------------");
 
 			}
-@Test (priority=17)
+@Test (priority=17,dependsOnMethods="verify_successful_Login_To_PicsureUI")
 
 			public void verifyQueryBuilder_ByNumericValue_Decimal() throws Exception {
 				LOGGER.info(
@@ -311,7 +311,7 @@ public class TestDriver {
 
 			}
 
-@Test(priority=18)
+@Test(priority=18,dependsOnMethods="verify_successful_Login_To_PicsureUI")
 
 			public void verify_QueryBuilder_ByNumericValue_OutOfRangeValidation() throws Throwable {
 				LOGGER.info(
@@ -324,7 +324,7 @@ public class TestDriver {
 			}
 
 
-@Test (priority=19)
+@Test (priority=19,dependsOnMethods="verify_successful_Login_To_PicsureUI")
 
 	public void verify_QueryBuilder_ByNumeric_NoValue_Message() throws Exception {
 		LOGGER.info(
@@ -385,7 +385,7 @@ public class TestDriver {
 				"---------------------------------The test case The test case verify Restrict By Value is completed-------------------------");
 	}
 
-@Test (priority=24)
+@Test (priority=24,dependsOnMethods="verify_successful_Login_To_PicsureUI")
 
 	public void verify_userProfile() throws Exception {
 		LOGGER.info(
@@ -409,7 +409,7 @@ public class TestDriver {
 	}
 
 
-	@Test (priority=26)
+	@Test (priority=26,dependsOnMethods="verify_successful_Login_To_PicsureUI")
 	public void verify_dataaccessdashboard() throws Exception {
 		LOGGER.info(
 				"---------------------------------The test case dataaccess page load  is running-------------------------");
@@ -421,7 +421,7 @@ public class TestDriver {
 	}
 
 	
-	@Test (priority=27)
+	@Test (priority=27,dependsOnMethods="verify_successful_Login_To_PicsureUI")
 	public void verify_dataaccessExploreButtonOpenAccess() throws Exception {
 		LOGGER.info(
 				"---------------------------------The test case verifying Explore button  is running-------------------------");
@@ -432,7 +432,7 @@ public class TestDriver {
 
 	}
 
-	@Test (priority=28)
+	@Test (priority=28,dependsOnMethods="verify_successful_Login_To_PicsureUI")
 	public void verify_helpcontactus() throws Exception {
 		LOGGER.info(
 				"---------------------------------The test case helpContactUS is running-------------------------");
@@ -444,7 +444,7 @@ public class TestDriver {
 	}
 
 
-	@Test (priority=29)
+	@Test (priority=29,dependsOnMethods="verify_successful_Login_To_PicsureUI")
 	public void verify_authorized_access_page_dataexport() throws Exception {
 		LOGGER.info(
 				"---------------------------------The test case verify  Authorized page displays Data Export button is running-------------------------");
@@ -456,7 +456,7 @@ public class TestDriver {
 	}
 
 
-	@Test (priority=30)
+	@Test (priority=30,dependsOnMethods="verify_successful_Login_To_PicsureUI")
 	public void verify_authorized_access_page() throws Exception {
 		LOGGER.info(
 				"---------------------------------The test case verify  Authorized page loads is running-------------------------");
@@ -469,7 +469,7 @@ public class TestDriver {
 
 	
 	
-	@Test (priority=31)
+	@Test (priority=31,dependsOnMethods="verify_successful_Login_To_PicsureUI")
 	public void verify_authorized_NoExportButton_default() throws Exception {
 		LOGGER.info(
 				"---------------------------------The test case verify  Authorized page doesn't have default Export Button  is running-------------------------");
@@ -480,7 +480,19 @@ public class TestDriver {
 
 	}
 
-	@Test (priority=30)
+	
+	@Test (priority=32,dependsOnMethods="verify_successful_Login_To_PicsureUI")
+	public void verify_queryresult_patientcount_lessthanten() throws Exception {
+		LOGGER.info(
+				"---------------------------------The test case verify if query result is between 1 to 9 it displays < 10  is running-------------------------");
+		readFile(configProperties.getProperty("verify.bdc.openaccess.patientcountlessthan.tenfeature"));
+		testPlan.verifyOpenAccesspatientcountdiplsyaforQueryResultBetnOnetoNine(reporter);
+		LOGGER.info(
+				"---------------------------------The test case verify if query result is between 1 to 9 it displays < 10 is completed-------------------------");
+
+	}
+
+	@Test (priority=33,dependsOnMethods="verify_successful_Login_To_PicsureUI")
 	public void verify_logout() throws Exception {
 		LOGGER.info(
 				"---------------------------------The test case logout is running-------------------------");
